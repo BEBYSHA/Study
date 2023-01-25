@@ -1,0 +1,706 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package GUI;
+
+import java.awt.HeadlessException;
+import java.awt.event.MouseEvent;
+import java.sql.Statement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+/**
+ *
+ * @author Asus
+ */
+public class P07 extends javax.swing.JPanel {
+    private Connection con;
+    private Statement stat;
+    private ResultSet res;
+    /**
+     * Creates new form pnlPengadaanBrg
+     */
+    public P07() {
+        initComponents();
+         tampilkandata();
+         tampilkanbrg();
+         idotomatis();
+         
+}
+    
+    private void idotomatis(){
+    try{
+            
+            String sql = "SELECT MAX(ID_Transaksi) AS id FROM pengadaanbrg";
+            java.sql.Connection conn = (Connection)P13.configDB();
+            java.sql.Statement stm = conn.createStatement();
+            java.sql.ResultSet res = stm.executeQuery(sql);
+            
+            while(res.next()){
+                Object[ ] obj = new Object[1];
+                obj[0] = res.getString("id");
+                if (obj[0]==null){
+                    obj[0] = "T000";
+                    
+                }
+                String str_kd = (String) obj[0];
+                String kd = str_kd.substring(1, 4);
+                int code = Integer.parseInt(kd);
+                code++;
+                String a = String.format("%03d", code);
+                String b = "T" + a;
+                tf6.setText(b);
+            }
+            
+                       
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+    
+}
+    private void tampilkanbrg(){
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("ID_Transaksi");
+        model.addColumn("Tanggal");
+        model.addColumn("Kode_Barang");
+        model.addColumn("Merk_Laptop");
+        model.addColumn("Type_Laptop");
+        model.addColumn("Harga_Beli");
+        model.addColumn("Stok");
+        model.addColumn("Total_Transaksi");
+        
+       
+        try{
+            String sql = "SELECT * FROM pengadaanbrg";
+            java.sql.Connection conn = (Connection)P13.configDB();
+            java.sql.Statement stm = conn.createStatement();
+            java.sql.ResultSet res = stm.executeQuery(sql);
+            
+            while(res.next()){
+                model.addRow(new Object[]{res.getString(1),res.getString(2),res.getString(3),res.getString(4),res.getString(5),res.getString(6),res.getString(7),res.getString(8)}); 
+            }
+             jTable1.setModel(model);            
+        }catch (SQLException e){
+            System.out.println("Error Koneksi : " + e.getMessage());
+        }
+    }
+    
+    private void tampilkandata(){
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("Kode Barang");
+        model.addColumn("Brand");
+        model.addColumn("Type");
+        model.addColumn("Harga");
+        
+        try{
+            String sql = "SELECT * FROM barang";
+            java.sql.Connection conn = (Connection)P13.configDB();
+            java.sql.Statement stm = conn.createStatement();
+            java.sql.ResultSet res = stm.executeQuery(sql);
+            
+            while(res.next()){
+                model.addRow(new Object[]{res.getString(1),res.getString(2),res.getString(3),res.getString(4)}); 
+            }
+             jTable2.setModel(model);            
+        }catch (SQLException e){
+            System.out.println("Error : " + e.getMessage());
+        }
+    }
+    private void caridata(String key){
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("Kode Barang");
+        model.addColumn("Brand");
+        model.addColumn("Type");
+        model.addColumn("Harga");
+        
+        try{
+            String sql = "SELECT * from barang WHERE Kode_Barang LIKE '%"+key+"%' OR Brand LIKE '%"+key+"%'"; 
+            java.sql.Connection conn = (Connection)P13.configDB();
+            java.sql.Statement stm = conn.createStatement();
+            java.sql.ResultSet res = stm.executeQuery(sql);
+            
+            while(res.next()){
+                model.addRow(new Object[]{res.getString(1),res.getString(2),res.getString(3),res.getString(4)}); 
+            }
+             jTable2.setModel(model);            
+        }catch (SQLException e){
+            System.out.println("Error : " + e.getMessage());
+        }
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        tf1 = new javax.swing.JTextField();
+        tf2 = new javax.swing.JTextField();
+        tf3 = new javax.swing.JTextField();
+        tf4 = new javax.swing.JTextField();
+        tf9 = new javax.swing.JTextField();
+        tf6 = new javax.swing.JTextField();
+        tf7 = new javax.swing.JTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        cari = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+
+        setMinimumSize(new java.awt.Dimension(770, 520));
+        setPreferredSize(new java.awt.Dimension(703, 542));
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel1.setText("Kode Barang");
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel2.setText("Brand");
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel3.setText("Type");
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel4.setText("Harga Beli ");
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel5.setText("Jumlah");
+
+        tf1.setEditable(false);
+        tf1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        tf1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tf1ActionPerformed(evt);
+            }
+        });
+
+        tf2.setEditable(false);
+        tf2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        tf2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tf2ActionPerformed(evt);
+            }
+        });
+
+        tf3.setEditable(false);
+        tf3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        tf3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tf3ActionPerformed(evt);
+            }
+        });
+
+        tf4.setEditable(false);
+        tf4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        tf4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tf4ActionPerformed(evt);
+            }
+        });
+
+        tf9.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+
+        tf6.setEditable(false);
+        tf6.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        tf6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tf6ActionPerformed(evt);
+            }
+        });
+
+        tf7.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+
+        jTable1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID_Transaksi", "Tanggal", "Kode Barang", "Brand", "Type", "Harga Beli", "Stok", "Total_Transaksi"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(jTable1);
+
+        jButton1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jButton1.setText("Update Barang");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton5.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jButton5.setText("Reset");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel6.setText("ID Transaksi");
+
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel8.setText("Cari");
+
+        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel9.setText("Tanggal");
+
+        jLabel10.setFont(new java.awt.Font("Tahoma", 3, 24)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(51, 51, 255));
+        jLabel10.setText("PENGADAAN BARANG");
+
+        cari.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cariActionPerformed(evt);
+            }
+        });
+        cari.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                cariKeyTyped(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                cariKeyReleased(evt);
+            }
+        });
+
+        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel11.setText("Pilih Barang");
+
+        jTable2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Kode Barang", "Brand", "Type", "Harga"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable2.setColumnSelectionAllowed(true);
+        jTable2.getTableHeader().setReorderingAllowed(false);
+        jTable2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable2MouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTable2);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(298, 298, 298)
+                .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(271, 271, 271))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 92, Short.MAX_VALUE)
+                        .addComponent(jLabel11)
+                        .addGap(281, 281, 281)
+                        .addComponent(jLabel8)
+                        .addGap(49, 49, 49)
+                        .addComponent(cari, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(458, 458, 458)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(tf7, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(tf9, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jButton1)
+                                        .addGap(45, 45, 45))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel4)
+                                            .addComponent(jLabel2))
+                                        .addGap(54, 54, 54)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(tf6, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(tf4, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(tf1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(tf2, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(tf3, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGap(4, 4, 4)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel9)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 167, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addComponent(jScrollPane1)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(jLabel10)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel11)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel8)
+                        .addComponent(cari, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(25, 25, 25)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tf6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
+                .addGap(12, 12, 12)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tf1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tf2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addGap(12, 12, 12)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel9)
+                        .addComponent(tf7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tf3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(12, 12, 12)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4)
+                    .addComponent(tf4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5)
+                    .addComponent(tf9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void tf1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf1ActionPerformed
+        // TODO add your handling code here:
+       
+    }//GEN-LAST:event_tf1ActionPerformed
+
+    private void tf2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf2ActionPerformed
+        // TODO add your handling code here:
+      
+    }//GEN-LAST:event_tf2ActionPerformed
+
+    private void tf3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf3ActionPerformed
+        // TODO add your handling code here:
+       
+    }//GEN-LAST:event_tf3ActionPerformed
+
+    private void tf4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf4ActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_tf4ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+        int baris = jTable1.rowAtPoint(evt.getPoint());
+        String nomor = jTable1.getValueAt(baris, 0).toString();
+        tf6.setText(nomor);
+
+        String nama = jTable1.getValueAt(baris, 1).toString();
+        tf7.setText(nama);
+
+        String type = jTable1.getValueAt(baris, 2).toString();
+        tf1.setText(type);
+
+        String harg = jTable1.getValueAt(baris, 3).toString();
+         tf2.setText(harg);
+        String har = jTable1.getValueAt(baris, 4).toString();
+         tf3.setText(har);
+        String ha = jTable1.getValueAt(baris, 5).toString();
+         tf4.setText(ha);
+        String h = jTable1.getValueAt(baris, 6).toString();
+         tf9.setText(h);
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        try{
+            kolom_kosong();
+            rekapbrg();
+            
+            
+            String sql = "SELECT * FROM pengadaanbrg WHERE Kode_Barang='"+tf1.getText()+"'"; 
+            java.sql.Connection con = (Connection)P13.configDB();
+            java.sql.Statement stm = con.createStatement();
+            java.sql.ResultSet res = stm.executeQuery(sql);
+            
+            if(res.next()==true){
+             upstok();
+            } else {
+            int a=Integer.parseInt(tf4.getText());
+            int b=Integer.parseInt(tf9.getText());
+            int total = a*b;
+            String misql = "INSERT INTO pengadaanbrg VALUES ('"+tf6.getText()+"','"+tf7.getText()+"','"+tf1.getText()+"','"+tf2.getText()+"','"+tf3.getText()+"','"+tf4.getText()+"','"+tf9.getText()+"','"+total+"')";
+            java.sql.Connection com = (Connection)P13.configDB();
+            java.sql.PreparedStatement pstm = com.prepareStatement(misql);
+            pstm.execute();
+            JOptionPane.showMessageDialog(null, "Proses Simpan Data Berhasil..");
+
+            tampilkanbrg();
+            clear();
+            idotomatis();
+            }
+            
+        }catch(HeadlessException | SQLException e){
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+    private void upstok(){
+         try{
+         String misql = "INSERT INTO updatestok VALUES ('"+tf1.getText()+"','"+tf9.getText()+"')";
+            java.sql.Connection com = (Connection)P13.configDB();
+            java.sql.PreparedStatement pstm = com.prepareStatement(misql);
+            pstm.execute();
+            tampilkanbrg();
+            clear();
+            idotomatis();
+         }catch(HeadlessException | SQLException e){
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }
+    private void rekapbrg(){
+            try{
+          
+            int a=Integer.parseInt(tf4.getText());
+            int b=Integer.parseInt(tf9.getText());
+            int total = a*b;
+            
+            
+            String misql = "INSERT INTO rekapbrg VALUES ('"+tf6.getText()+"','"+tf7.getText()+"','"+tf1.getText()+"','"+tf2.getText()+"','"+tf3.getText()+"','"+tf4.getText()+"','"+tf9.getText()+"','"+total+"')";
+            java.sql.Connection com = (Connection)P13.configDB();
+            java.sql.PreparedStatement pstm = com.prepareStatement(misql);
+            pstm.execute();
+            
+            
+        }catch(HeadlessException | SQLException e){
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }
+    private void kodesama(){
+        try{
+            DefaultTableModel model = new DefaultTableModel();
+            model.addColumn("Kode Barang");
+            model.addColumn("Nama Laptop");
+            model.addColumn("Type Laptop");
+            model.addColumn("Harga Laptop");
+            
+            String sql = "SELECT * FROM pengadaanbrg WHERE Kode_Barang='"+tf1.getText()+"'"; 
+            java.sql.Connection conn = (Connection)P13.configDB();
+            java.sql.Statement stm = conn.createStatement();
+            java.sql.ResultSet res = stm.executeQuery(sql);
+            
+            if(res.next()==true){
+                JOptionPane.showMessageDialog(null, "Barang Sudah ADA");
+            }            
+        }catch (SQLException e){
+            System.out.println("Error : " + e.getMessage());
+        }
+                 
+    }
+     
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        
+          clear();
+          idotomatis();
+        
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void tf6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf6ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tf6ActionPerformed
+
+    private void cariKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cariKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cariKeyTyped
+
+    private void cariKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cariKeyReleased
+        // TODO add your handling code here:
+        String key=cari.getText();
+        
+        if(key!=""){
+            caridata(key);
+        }else{
+             tampilkandata();
+        }
+    }//GEN-LAST:event_cariKeyReleased
+
+    private void cariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cariActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cariActionPerformed
+
+    private void jTable2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseClicked
+        // TODO add your handling code here:
+        int baris = jTable2.rowAtPoint(evt.getPoint());
+        String nomor = jTable2.getValueAt(baris, 0).toString();
+        tf1.setText(nomor);
+
+        String nama = jTable2.getValueAt(baris, 1).toString();
+        tf2.setText(nama);
+
+        String type = jTable2.getValueAt(baris, 2).toString();
+        tf3.setText(type);
+
+        String harga = jTable2.getValueAt(baris, 3).toString();
+        tf4.setText(harga);
+
+    }//GEN-LAST:event_jTable2MouseClicked
+    
+    private void clear(){
+        tf1.setText(null);
+        tf2.setText(null);
+        tf3.setText(null);
+        tf4.setText(null);
+        tf9.setText(null);
+        tf6.setText(null);
+        tf7.setText(null);
+    }
+    
+    private void kolom_kosong(){
+        
+        if(tf1.getText().equals("")){
+                JOptionPane.showMessageDialog(null, "Kolom tidak Boleh ada yang kosong");
+            } else if(tf6.getText().equals("")){
+                JOptionPane.showMessageDialog(null, "Kolom tidak Boleh ada yang kosong");
+            }else if(tf2.getText().equals("")){
+                JOptionPane.showMessageDialog(null, "Kolom tidak Boleh ada yang kosong");
+            }else if(tf3.getText().equals("")){
+                JOptionPane.showMessageDialog(null, "Kolom tidak Boleh ada yang kosong");
+            }else if(tf4.getText().equals("")){
+                JOptionPane.showMessageDialog(null, "Kolom tidak Boleh ada yang kosong");
+            }else if(tf7.getText().equals("")){
+                JOptionPane.showMessageDialog(null, "Kolom tidak Boleh ada yang kosong");
+            }else if(tf9.getText().equals("")){
+                JOptionPane.showMessageDialog(null, "Kolom tidak Boleh ada yang kosong");
+            }
+    }
+   
+        private void updatestok() {
+                try{
+                    
+            int baris = 0 ;
+            String nomor = jTable1.getValueAt(baris, 6).toString();
+            
+        
+             String stokbarang1;
+             int stokbarang2, jumlahjual,returnstok;
+             stokbarang1=nomor;
+             jumlahjual = Integer.parseInt(tf9.getText());
+             stokbarang2 = Integer.parseInt(stokbarang1);
+             returnstok =(jumlahjual + stokbarang2);
+             
+             int a=Integer.parseInt(tf4.getText());
+            int b=Integer.parseInt(tf9.getText());
+            int total = a*b;
+            
+             String sqll = "UPDATE pengadaanbrg SET ID_Transaksi='"+tf6.getText()+"',Kode_Barang='"+tf1.getText()+"',Merk_Laptop='"+tf2.getText()+"',Type_Laptop='"+tf3.getText()+"',Harga_Beli='"+tf4.getText()+"',Jumlah='"+returnstok+"',Total_Transaksi='"+total+"' WHERE Kode_barang= '"+tf1.getText()+"'";
+              java.sql.Connection con = (Connection)P13.configDB();
+            java.sql.PreparedStatement pstm = con.prepareStatement(sqll);
+            pstm.execute();
+            JOptionPane.showMessageDialog(null, "Update Stok Berhasil...");
+            tampilkanbrg();
+            clear();
+            idotomatis();
+        }catch (SQLException e){
+            System.out.println("Error Koneksi : " + e.getMessage());
+        }
+        }
+ 
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField cari;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
+    private javax.swing.JTextField tf1;
+    private javax.swing.JTextField tf2;
+    private javax.swing.JTextField tf3;
+    private javax.swing.JTextField tf4;
+    private javax.swing.JTextField tf6;
+    private javax.swing.JTextField tf7;
+    private javax.swing.JTextField tf9;
+    // End of variables declaration//GEN-END:variables
+}
