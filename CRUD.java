@@ -1,11 +1,3 @@
-/*
-TUGAS PERTEMUAN KE-03
-PEMROGRAMAN BERORIENTASI OBJEK, GANJIL 2022/2023
-NPM     : 2113020201
-Nama    : Shalaisha Amelia Putri Gemini
-Kelas   : 2A
- */
-
 import java.io.*;
 import java.time.Year;
 import java.util.Scanner;
