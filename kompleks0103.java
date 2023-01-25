@@ -1,13 +1,3 @@
-/*
-TUGAS PERTEMUAN KE-01
-PEMROGRAMAN BERORIENTASI OBJEK, GANJIL 2022/2023
-NPM         : 2113020201
-Nama        : Shalaisha Amelia Putri Gemini
-Kelas       : 2A
-Kategori    : kompleks
-Soal        : 3
- */
-
 public class kompleks0103 {
     static int linearSearch(int[] dataArray, int key){
         for(int i = 0; i < dataArray.length; i++){
